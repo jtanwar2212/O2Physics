@@ -17,6 +17,7 @@
 
 #include "PWGHF/Core/HfMlResponseXicToXiPiPi.h"
 #include "PWGHF/Core/SelectorCuts.h"
+#include "PWGHF/DataModel/AliasTables.h"
 #include "PWGHF/DataModel/CandidateReconstructionTables.h"
 #include "PWGHF/DataModel/CandidateSelectionTables.h"
 #include "PWGHF/Utils/utilsAnalysis.h"
@@ -603,11 +604,11 @@ struct HfCandidateSelectorXicToXiPiPi {
     //                PID selection               //
     ////////////////////////////////////////////////
     if (usePid) {
-      TrackSelectorPID::Status statusPidPi0 = TrackSelectorPID::NotApplicable;
-      TrackSelectorPID::Status statusPidPi1 = TrackSelectorPID::NotApplicable;
-      TrackSelectorPID::Status statusPidPiXi = TrackSelectorPID::NotApplicable;
-      TrackSelectorPID::Status statusPidPrLam = TrackSelectorPID::NotApplicable;
-      TrackSelectorPID::Status statusPidPiLam = TrackSelectorPID::NotApplicable;
+      TrackSelectorPID::Status statusPidPi0;
+      TrackSelectorPID::Status statusPidPi1;
+      TrackSelectorPID::Status statusPidPiXi;
+      TrackSelectorPID::Status statusPidPrLam;
+      TrackSelectorPID::Status statusPidPiLam;
 
       // assign proton and pion hypothesis to V0 daughters
       auto trackPr = trackV0PosDau;

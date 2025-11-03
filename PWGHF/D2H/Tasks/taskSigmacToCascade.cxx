@@ -62,7 +62,6 @@ struct HfTaskSigmacToCascade {
   using RecoLc = soa::Filtered<soa::Join<aod::HfCandCascExt, aod::HfSelLcToK0sP>>;
 
   HistogramRegistry registry{"registry"};
-  HfHelper hfHelper;
 
   void init(InitContext&)
   {
@@ -140,7 +139,6 @@ struct HfTaskSigmacToCascade {
   {
     for (const auto& candSc : candScs) {
       const auto& candidateLc = candSc.prongLc_as<RecoLc>();
-      float massSc(-1.), massLc(-1.), deltaMass(-1.);
       float ptSc(candSc.pt()), ptLc(candidateLc.pt());
       float const etaSc(candSc.eta()) /*, etaLc(candidateLc.eta())*/;
       float const phiSc(candSc.phi()) /*, phiLc(candidateLc.phi())*/;
@@ -149,13 +147,13 @@ struct HfTaskSigmacToCascade {
       float cpaLc(candidateLc.cpa()), cpaXYLc(candidateLc.cpaXY());
       float y(-1.);
 
-      massLc = hfHelper.invMassLcToK0sP(candidateLc);
-      massSc = hfHelper.invMassScRecoLcToK0sP(candSc, candidateLc);
-      deltaMass = massSc - massLc;
+      auto massLc = HfHelper::invMassLcToK0sP(candidateLc);
+      auto massSc = HfHelper::invMassScRecoLcToK0sP(candSc, candidateLc);
+      auto deltaMass = massSc - massLc;
       if (candSc.charge() == 0) {
-        y = hfHelper.ySc0(candSc);
+        y = HfHelper::ySc0(candSc);
       } else if (candSc.charge() == 2) {
-        y = hfHelper.yScPlusPlus(candSc);
+        y = HfHelper::yScPlusPlus(candSc);
       }
       registry.fill(HIST("Data/hDeltaMassSc0PlusPlus"), deltaMass);           /// Σc(0,++) for both charges
       registry.fill(HIST("Data/hDeltaMassSc0PlusPlusVsPt"), deltaMass, ptSc); /// Σc(0,++) for both charges
